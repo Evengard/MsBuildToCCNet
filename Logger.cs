@@ -28,6 +28,9 @@ namespace Rodemeyer.MsBuildToCCNet
 
         private string logfile;
         private string commonPrefix;
+
+        private string currentSolution = null;
+
         private int commonPrefixLength;
         MessageImportance loglevel;
 
@@ -101,6 +104,11 @@ namespace Rodemeyer.MsBuildToCCNet
         {
             w.WriteStartDocument();
             w.WriteStartElement("msbuild");
+            if (currentSolution != null)
+            {
+                w.WriteAttributeString("solution_name", Path.GetFileName(currentSolution));
+                w.WriteAttributeString("solution_dir", Path.GetDirectoryName(currentSolution));
+            }
             w.WriteAttributeString("project_count", XmlConvert.ToString(projects.Count));
 
             int errorCount = 0;
@@ -185,6 +193,16 @@ namespace Rodemeyer.MsBuildToCCNet
 
         private void OnProjectStarted(object sender, ProjectStartedEventArgs e)
         {
+            if ( (currentSolution == null || currentSolution.EndsWith(".csproj")) && e.ProjectFile.EndsWith(".sln"))
+            {
+                currentSolution = RemoveCommonPrefix(e.ProjectFile);
+            }
+
+            if (currentSolution == null && e.ProjectFile.EndsWith(".csproj"))
+            {
+                currentSolution = RemoveCommonPrefix(e.ProjectFile);
+            }
+
             if (!file_to_project.TryGetValue(e.ProjectFile, out this.current_project))
             {
                 current_project = new Project(e.ProjectFile);

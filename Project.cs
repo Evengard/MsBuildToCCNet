@@ -48,6 +48,11 @@ namespace Rodemeyer.MsBuildToCCNet
             get { return warnings.Count; }
         }
 
+        public int MessageCount
+        {
+            get { return messages.Count; }
+        }
+
         public void Add(Error e)
         {
             errors.Add(e);

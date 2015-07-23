@@ -9,6 +9,7 @@
 	<xsl:template match="msbuild">
 		<table class="section-table" cellpadding="2" cellspacing="0" border="0" width="98%">
 		<tr><td class="sectionheader">
+      <b><xsl:value-of select="@solution_name"/></b> in <xsl:value-of select="@solution_dir"/>: 
 			<xsl:choose>
 				<xsl:when test="@error_count > 0">
 				    Build failed with <xsl:value-of select="@error_count"/> errors
