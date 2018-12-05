@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Xml;
-
-using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 using System.IO;
 using System.Collections;
+using Microsoft.Build.Framework;
 
 namespace Rodemeyer.MsBuildToCCNet
 {
